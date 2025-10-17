@@ -128,7 +128,10 @@ export type CourseExtra = {
 
 function extraInfos(row: ScoreBase): CourseExtra[] {
   const interestingKeys: Array<
-    [keyof ScoreBase | "zxjhbh" | "ywmc" | "kctx" | "jxbh", CourseExtra]
+    [
+      keyof ScoreBase | "zxjhbh" | "ywmc" | "kctx" | "jxbh" | "bkcjbh" | "xslb",
+      CourseExtra,
+    ]
   > = [];
 
   interestingKeys.push([

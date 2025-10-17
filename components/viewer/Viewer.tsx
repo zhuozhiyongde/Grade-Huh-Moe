@@ -88,7 +88,6 @@ export function Viewer() {
       };
       holder.__PKU_SEMESTER_MIX_DEBUG__ = debugGroups;
     }
-    // eslint-disable-next-line no-console
     console.log("[semester-mix][merge] groups", debugGroups);
 
     const aggregated = Array.from(groups.values());
