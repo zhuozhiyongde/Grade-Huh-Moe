@@ -1,0 +1,101 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { ControllerBar } from '@/components/ControllerBar';
+import { Footer } from '@/components/Footer';
+import { Header } from '@/components/Header';
+import { QueryButton } from '@/components/QueryButton';
+import { Viewer } from '@/components/viewer/Viewer';
+import { useScoreContext } from '@/context/ScoreContext';
+
+const EULA_KEY = 'EULA';
+
+export default function Home() {
+    const { hasData } = useScoreContext();
+    const [eulaAccepted, setEulaAccepted] = useState(true);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const accepted = localStorage.getItem(EULA_KEY) === 'accepted';
+        setEulaAccepted(accepted);
+    }, []);
+
+    const handleAcceptEula = () => {
+        setEulaAccepted(true);
+        localStorage.setItem(EULA_KEY, 'accepted');
+        if (typeof window !== 'undefined' && 'Notification' in window) {
+            Notification.requestPermission().catch(() => {});
+        }
+    };
+
+    const handleDeclineEula = () => {
+        if (typeof window === 'undefined') return;
+        localStorage.removeItem(EULA_KEY);
+        window.location.href = 'about:blank';
+    };
+
+    return (
+        <main className="pb-12 text-white">
+            <div className="legacy-container px-4">
+                <Header />
+                <ControllerBar />
+                {hasData ? <Viewer /> : <QueryButton />}
+                <Footer onShowEula={() => setEulaAccepted(false)} />
+            </div>
+            {!eulaAccepted && <EulaModal onAccept={handleAcceptEula} onDecline={handleDeclineEula} />}
+        </main>
+    );
+}
+
+type EulaModalProps = {
+    onAccept: () => void;
+    onDecline: () => void;
+};
+
+function EulaModal({ onAccept, onDecline }: EulaModalProps) {
+    return (
+        <div className="modal-overlay">
+            <div className="legacy-modal">
+                <div className="legacy-modal__body gap-y-4">
+                    <h2 className="text-lg font-semibold">用户须知</h2>
+                    <p className="font-medium">
+                        请仔细阅读以下内容。点击“继续”按钮或使用本网站的任何功能即视为您同意以下条款。
+                    </p>
+                    <p>本网站是北大树洞成绩查询页面的重新实现，本网站将使用以下两种方式以获取您的成绩信息：</p>
+                    <ul className="list-disc space-y-1 pl-6">
+                        <li>对于本部成绩：使用北京大学统一认证 API 接口获取</li>
+                        <li>使用医学部成绩：通过发往后端服务器来获取您的成绩信息</li>
+                    </ul>
+                    <p>
+                        <strong className="text-red-500">本网站承诺不会收集您的任何认证凭证。</strong>
+                    </p>
+                    <p>
+                        对于本部成绩：您的账号密码不会经过我们的后端服务器，而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
+                    </p>
+                    <p>
+                        对于医学部成绩：由于医学部后端存在 CORS
+                        跨域限制，所以必须通过将您的账号密码发往我们的后端，然后自动化请求北医综合服务平台（apps.bjmu.edu.cn）来获取您的成绩信息。
+                        您的账号密码发往后端后会被一次性的使用，不会被存储或泄露。后端代码我们将会在 GitHub
+                        上开源以供审计。
+                    </p>
+                    <p>如果您不信任我们的承诺，您可以选择关闭本网页。</p>
+                    <p>
+                        您的账号密码将仅存储在浏览器端的本地存储（Local
+                        Storage）以方便后续输入，您可以通过清理缓存来清除这些数据。
+                    </p>
+                </div>
+                <div className="legacy-modal__actions">
+                    <button type="button" onClick={onDecline} className="legacy-modal__button">
+                        拒绝
+                    </button>
+                    <button
+                        type="button"
+                        onClick={onAccept}
+                        className="legacy-modal__button legacy-modal__button--primary">
+                        继续
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
