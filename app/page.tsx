@@ -13,6 +13,7 @@ const EULA_KEY = 'EULA';
 export default function Home() {
     const { hasData } = useScoreContext();
     const [eulaAccepted, setEulaAccepted] = useState(true);
+    const [showGidHelp, setShowGidHelp] = useState(false);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
@@ -37,12 +38,17 @@ export default function Home() {
     return (
         <main className="pb-12 text-white">
             <div className="legacy-container px-4">
-                <Header />
+                <Header
+                    onShowGidHelp={() => {
+                        setShowGidHelp(true);
+                    }}
+                />
                 <ControllerBar />
                 {hasData ? <Viewer /> : <QueryButton />}
                 <Footer onShowEula={() => setEulaAccepted(false)} />
             </div>
             {!eulaAccepted && <EulaModal onAccept={handleAcceptEula} onDecline={handleDeclineEula} />}
+            {showGidHelp && <GidHelpModal onClose={() => setShowGidHelp(false)} />}
         </main>
     );
 }
@@ -93,6 +99,53 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                         onClick={onAccept}
                         className="legacy-modal__button legacy-modal__button--primary">
                         继续
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+type GidHelpModalProps = {
+    onClose: () => void;
+};
+
+function GidHelpModal({ onClose }: GidHelpModalProps) {
+    return (
+        <div className="modal-overlay">
+            <div className="legacy-modal max-w-xl">
+                <div className="legacy-modal__body gap-y-3">
+                    <h2 className="text-lg font-semibold">如何获取 GID</h2>
+                    <p>GID 是医学部成绩系统用于定位服务的参数。</p>
+                    <p className="text-cyan-500">仅初次使用时需要提供，后续可以保存无需再次提供！</p>
+                    <p>其可按照以下步骤获取：</p>
+                    <ol className="list-decimal space-y-1 pl-6 text-sm leading-relaxed text-gray-200">
+                        <li>
+                            在浏览器中登录北医综合服务平台，然后访问其{' '}
+                            <a
+                                href="https://apps.bjmu.edu.cn/jwapp/sys/cjcx/*default/index.do"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="!text-cyan-500">
+                                成绩查询页面
+                            </a>
+                            。
+                        </li>
+                        <li>
+                            到达成绩查询页面后，直接在地址栏中复制完整链接，链接中应当包含 <code>gid_=...</code>{' '}
+                            参数，您可以直接返回到本页面并粘贴该链接，然后点击“解析”按钮测试是否可以正确解析。
+                        </li>
+                        <li>如果链接正确，系统会自动提取 118 位的 GID，并进行存储。</li>
+                    </ol>
+                    <p>如遇解析失败，请确认链接仍然有效或重新访问成绩查询页面获取最新的 GID。</p>
+                    <p><del className="text-sm">抱歉主播太菜了，没能找到自动获取 GID 的方法，给大家带来不便了 orz</del></p>
+                </div>
+                <div className="legacy-modal__actions">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="legacy-modal__button legacy-modal__button--primary">
+                        我知道了
                     </button>
                 </div>
             </div>

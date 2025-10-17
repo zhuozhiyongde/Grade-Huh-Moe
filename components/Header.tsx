@@ -3,17 +3,24 @@
 import { ChangeEvent, useId } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ScoreMode, SemesterMixMode, useOptions } from '@/context/OptionsContext';
+import { GID_REGEX, extractGid } from '@/lib/gid';
 
-export function Header() {
+type HeaderProps = {
+    onShowGidHelp: () => void;
+};
+
+export function Header({ onShowGidHelp }: HeaderProps) {
     const {
         username,
         mainPassword,
         medPassword,
         samePassword,
+        gid,
         setUsername,
         setMainPassword,
         setMedPassword,
         setSamePassword,
+        setGid,
     } = useAuth();
     const { mode, setMode, semesterMixMode, setSemesterMixMode } = useOptions();
 
@@ -23,6 +30,7 @@ export function Header() {
     const medPasswordId = useId();
     const samePasswordId = useId();
     const semesterMixId = useId();
+    const gidId = useId();
 
     const handleModeChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setMode(event.target.value as ScoreMode);
@@ -36,7 +44,9 @@ export function Header() {
     const showMedPasswordField = mode === 'med' || mode === 'mixed';
     const showSamePasswordToggle = mode === 'mixed';
     const showSemesterMixSelector = mode === 'mixed';
+    const showGidField = showMedPasswordField;
     const usingSharedPassword = mode === 'mixed' && samePassword;
+    const gidIsValid = GID_REGEX.test(gid.trim());
 
     return (
         <header className="title-bar">
@@ -100,6 +110,48 @@ export function Header() {
                                         disabled={usingSharedPassword}
                                         aria-disabled={usingSharedPassword}
                                     />
+                                </div>
+                            )}
+                            {showGidField && (
+                                <div className="login-field login-field--span-2">
+                                    <label className="login-field-label flex items-center gap-2" htmlFor={gidId}>
+                                        GID
+                                        <button
+                                            type="button"
+                                            onClick={onShowGidHelp}
+                                            className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/60 text-xs font-semibold text-white/80 transition hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                                            aria-label="如何获取 GID"
+                                        >
+                                            ?
+                                        </button>
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <input
+                                            id={gidId}
+                                            type="text"
+                                            className="login-input flex-1"
+                                            placeholder="粘贴包含 gid_ 参数的链接或直接输入 GID"
+                                            value={gid}
+                                            onChange={(event) => setGid(event.target.value)}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="rounded-md border border-white/50 px-3 text-xs font-semibold uppercase tracking-wide text-white/80 transition hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 disabled:opacity-60"
+                                            onClick={() => {
+                                                const parsed = extractGid(gid);
+                                                if (parsed) {
+                                                    if (!gidIsValid || parsed !== gid) {
+                                                        setGid(parsed);
+                                                    }
+                                                    window.alert('已解析出 GID，请确认后再查询。');
+                                                } else {
+                                                    window.alert('未能解析出有效的 GID，请粘贴包含 gid_ 参数的链接。');
+                                                }
+                                            }}
+                                        >
+                                            解析
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                             {showSamePasswordToggle && (

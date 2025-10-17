@@ -4,11 +4,13 @@ import type { ApiResult, BksScores } from '@/lib/api';
 import { calcGpa, parseScore } from '@/lib/scoreParser';
 
 const BACKEND_BASE_URL = 'https://grade.arthals.ink';
+// const BACKEND_BASE_URL = 'http://localhost:8000';
 
 type MedClientParams = {
     username: string;
     password: string;
     excludeMainCampus: boolean;
+    gid?: string;
 };
 
 type MedScoreRow = {
@@ -92,6 +94,7 @@ export async function fetchMedCampusScores(params: MedClientParams): Promise<Api
             body: JSON.stringify({
                 username: params.username,
                 password: params.password,
+                gid: params.gid,
             }),
         });
 

@@ -6,16 +6,19 @@ import { ScoreMode, useOptions } from "@/context/OptionsContext";
 import type { ApiResult } from "@/lib/api";
 import { fetchMainCampusScores } from "@/lib/isopClient";
 import { fetchMedCampusScores, mergeScores } from "@/lib/pkuhscClient";
+import { GID_REGEX } from "@/lib/gid";
 
 type AuthContextValue = {
   username: string;
   mainPassword: string;
   medPassword: string;
   samePassword: boolean;
+  gid: string;
   setUsername: (value: string) => void;
   setMainPassword: (value: string) => void;
   setMedPassword: (value: string) => void;
   setSamePassword: (value: boolean) => void;
+  setGid: (value: string) => void;
   loading: boolean;
   load: () => Promise<void>;
 };
@@ -27,6 +30,7 @@ const STORAGE_KEYS = {
   mainPassword: "MAIN_PASSWORD",
   medPassword: "MED_PASSWORD",
   samePassword: "USE_SAME_PASSWORD",
+  gid: "PKUHSC_GID",
 } as const;
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -36,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [username, setUsername] = useState("");
   const [mainPassword, setMainPassword] = useState("");
   const [medPassword, setMedPassword] = useState("");
+  const [gid, setGid] = useState("");
   const [samePassword, setSamePasswordState] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -45,6 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const storedMainPassword = localStorage.getItem(STORAGE_KEYS.mainPassword);
       const storedMedPassword = localStorage.getItem(STORAGE_KEYS.medPassword);
       const storedSamePassword = localStorage.getItem(STORAGE_KEYS.samePassword);
+      const storedGid = localStorage.getItem(STORAGE_KEYS.gid);
       if (storedUsername !== null) {
         setUsername(storedUsername);
       }
@@ -53,6 +59,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       if (storedMedPassword !== null) {
         setMedPassword(storedMedPassword);
+      }
+      if (storedGid !== null) {
+        setGid(storedGid);
       }
       if (storedSamePassword === "1") {
         setSamePasswordState(true);
@@ -72,6 +81,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     if (params.has("medPassword")) {
       setMedPassword(params.get("medPassword") ?? "");
+    }
+    if (params.has("gid")) {
+      setGid(params.get("gid") ?? "");
     }
   }, []);
 
@@ -120,12 +132,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [samePassword]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.gid, gid);
+    } catch (error) {
+      console.error("Failed to persist gid", error);
+    }
+  }, [gid]);
+
   const load = useCallback(async () => {
+    const normalizedGid = gid.trim();
     const missing = collectMissingFields(mode, {
       username,
       mainPassword,
       medPassword,
       samePassword,
+      gid: normalizedGid,
     });
     if (missing) {
       window.alert(missing);
@@ -140,6 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         mainPassword,
         medPassword,
         samePassword,
+        gid: normalizedGid,
       });
       await loadScores(task);
     } catch (error) {
@@ -148,22 +171,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, [clear, loadScores, mainPassword, medPassword, mode, samePassword, username]);
+  }, [clear, gid, loadScores, mainPassword, medPassword, mode, samePassword, username]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
       username,
       mainPassword,
       medPassword,
+      gid,
       setUsername,
       samePassword,
       setMainPassword,
       setMedPassword,
       setSamePassword,
+      setGid,
       loading,
       load,
     }),
-    [load, loading, mainPassword, medPassword, samePassword, setSamePassword, username],
+    [gid, load, loading, mainPassword, medPassword, samePassword, setGid, setSamePassword, username],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -182,10 +207,11 @@ type Credentials = {
   mainPassword: string;
   medPassword: string;
   samePassword: boolean;
+  gid: string;
 };
 
 function collectMissingFields(mode: ScoreMode, credentials: Credentials): string | null {
-  const { username, mainPassword, medPassword, samePassword } = credentials;
+  const { username, mainPassword, medPassword, samePassword, gid } = credentials;
   if (!username) {
     return "请填写学号";
   }
@@ -196,13 +222,21 @@ function collectMissingFields(mode: ScoreMode, credentials: Credentials): string
   if ((mode === "med" || mode === "mixed") && !medPasswordToUse) {
     return "请填写医学部密码";
   }
+  if (mode === "med" || mode === "mixed") {
+    if (!gid) {
+      return "请填写 GID";
+    }
+    if (!GID_REGEX.test(gid)) {
+      return "请填写有效的 GID（118 位大小写字母或数字）";
+    }
+  }
   return null;
 }
 
 type LoadTask = () => Promise<ApiResult>;
 
 function createLoadTask(mode: ScoreMode, credentials: Credentials): LoadTask {
-  const { username, mainPassword, medPassword, samePassword } = credentials;
+  const { username, mainPassword, medPassword, samePassword, gid } = credentials;
   const medPasswordToUse = samePassword ? mainPassword : medPassword;
   if (mode === "main") {
     return () => fetchMainCampusScores({ username, password: mainPassword });
@@ -213,6 +247,7 @@ function createLoadTask(mode: ScoreMode, credentials: Credentials): LoadTask {
         username,
         password: medPasswordToUse,
         excludeMainCampus: false,
+        gid,
       });
   }
   return async () => {
@@ -222,6 +257,7 @@ function createLoadTask(mode: ScoreMode, credentials: Credentials): LoadTask {
         username,
         password: medPasswordToUse,
         excludeMainCampus: true,
+        gid,
       }),
     ]);
     return mergeScores(main, med);
