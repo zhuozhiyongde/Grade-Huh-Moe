@@ -3,8 +3,7 @@
 import type { ApiResult, BksScores } from '@/lib/api';
 import { calcGpa, parseScore } from '@/lib/scoreParser';
 
-const BACKEND_BASE_URL = 'https://grade.arthals.ink';
-// const BACKEND_BASE_URL = 'http://localhost:8000';
+const PKUHSC_ENDPOINT = '/api/pkuhsc';
 
 type MedClientParams = {
     username: string;
@@ -81,22 +80,12 @@ type CampusTag = {
 
 export async function fetchMedCampusScores(params: MedClientParams): Promise<ApiResult> {
     try {
-        if (!BACKEND_BASE_URL) {
-            return {
-                success: false,
-                errMsg: '未配置医学部后端地址，请设置 NEXT_PUBLIC_BACKEND_URL',
-            };
-        }
-
-        const endpoint = `${BACKEND_BASE_URL}/med-scores`;
-
-        const response = await fetch(endpoint, {
+        const response = await fetch(PKUHSC_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            mode: 'cors',
-            credentials: 'omit',
+            credentials: 'same-origin',
             body: JSON.stringify({
                 username: params.username,
                 password: params.password,
