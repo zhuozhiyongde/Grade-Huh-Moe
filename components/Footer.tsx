@@ -37,7 +37,7 @@ export function Footer({ onShowEula }: FooterProps) {
           </p>
           <br />
           <p>
-              为什么不试试简洁优雅、好看好用的教学网美化脚本{' '}
+              为什么不试试教学网美化脚本{' '}
               <a href="https://arthals.ink/blog/pku-art" className="text-[lightblue] no-underline cursor-pointer">
                   PKU Art
               </a>{' '}
