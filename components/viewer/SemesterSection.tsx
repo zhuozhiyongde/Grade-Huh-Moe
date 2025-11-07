@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import clsx from "clsx";
 import {
   calcGpa,
@@ -32,6 +32,8 @@ export function SemesterSection({
   onTamper,
   onUntamper,
 }: SemesterSectionProps) {
+  const [collapsed, setCollapsed] = useState(false);
+
   const sortedIndices = useMemo(() => {
     return [...semester.courseList].sort((a, b) => {
       const s1 = courseGpaFromNormalizedScore(courses[a].score) ?? 0;
@@ -64,7 +66,13 @@ export function SemesterSection({
   return (
     <section className="semester-block">
       <div className={clsx({ "row-tampered": tampered })}>
-        <div className="layout-row" style={{ background: headerBackground }}>
+        <div
+          className="layout-row"
+          style={{ background: headerBackground, cursor: 'pointer' }}
+          onClick={() => setCollapsed(prev => !prev)}
+          role="button"
+          aria-expanded={!collapsed}
+        >
           <div className="layout-row-left">
             <div className="layout-vertical">
               <div className="layout-vertical-up">{fix(credit, 1)}</div>
@@ -93,7 +101,7 @@ export function SemesterSection({
           </div>
         </div>
       </div>
-      {sortedIndices.map((index) => (
+      {!collapsed && sortedIndices.map((index) => (
         <CourseRow
           key={courses[index].id + index}
           course={courses[index]}

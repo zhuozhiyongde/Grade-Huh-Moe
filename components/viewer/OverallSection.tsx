@@ -13,6 +13,7 @@ type OverallSectionProps = {
 };
 
 export function OverallSection({ courses, isopGpa, hideText, judgeByGpa }: OverallSectionProps) {
+    const [collapsed, setCollapsed] = useState(false);
     const totalCredit = useMemo(() => sumCredit(courses), [courses]);
     const totalGpa = useMemo(() => calcGpa(courses), [courses]);
     const displayScore = useMemo(() => guessScoreFromGpa(totalGpa), [totalGpa]);
@@ -54,7 +55,13 @@ export function OverallSection({ courses, isopGpa, hideText, judgeByGpa }: Overa
     return (
         <section className="semester-block">
             <div className={clsx({ 'row-tampered': tampered })}>
-                <div className="layout-row !px-2" style={{ background: colorizeSemester(displayScore, judgeByGpa) }}>
+                <div
+                    className="layout-row !px-2"
+                    style={{ background: colorizeSemester(displayScore, judgeByGpa), cursor: 'pointer' }}
+                    onClick={() => setCollapsed(prev => !prev)}
+                    role="button"
+                    aria-expanded={!collapsed}
+                >
                     <div className="layout-row-left">
                         <div className="layout-vertical">
                             <div className="layout-vertical-up">{fix(totalCredit, 1)}</div>
@@ -78,7 +85,7 @@ export function OverallSection({ courses, isopGpa, hideText, judgeByGpa }: Overa
                 </div>
             </div>
 
-            {categories.map((category) => (
+            {!collapsed && categories.map((category) => (
                 <CategoryRow key={category.name} data={category} hideText={hideText} judgeByGpa={judgeByGpa} />
             ))}
         </section>

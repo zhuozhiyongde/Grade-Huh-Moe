@@ -59,11 +59,17 @@ const PASS_FAIL_MAP: Record<string, string> = {
     通过: 'P',
     合格: 'P',
     及格: 'P',
+    PASS: 'P',
+    Pass: 'P',
+    pass: 'P',
     P: 'P',
     p: 'P',
     不通过: 'NP',
     不合格: 'NP',
     未通过: 'NP',
+    FAIL: 'NP',
+    Fail: 'NP',
+    fail: 'NP',
     F: 'NP',
     f: 'NP',
 };
@@ -449,9 +455,20 @@ function readScore(row: MedScoreRow): string {
     }
 
     if (isPassFail(row)) {
-        const mapped = PASS_FAIL_MAP[row.DJCJMC ?? ''];
+        const djcjmc = row.DJCJMC ?? '';
+        // Try exact match first
+        const mapped = PASS_FAIL_MAP[djcjmc];
         if (mapped) return mapped;
-        if (row.DJCJMC) return row.DJCJMC.toUpperCase();
+
+        // Try case-insensitive match
+        const upperKey = djcjmc.toUpperCase();
+        for (const [key, value] of Object.entries(PASS_FAIL_MAP)) {
+            if (key.toUpperCase() === upperKey) {
+                return value;
+            }
+        }
+
+        // Default to P if no match found
         return 'P';
     }
 

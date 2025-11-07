@@ -61,24 +61,6 @@ export function CourseRow({
     }
   };
 
-  const gotoPinzhi = () => {
-    const term =
-      course.semNameOriginal ??
-      `20${course.year}-${course.year + 1}${course.semester}`;
-    const params = new URLSearchParams({
-      course: course.id,
-      course_name: course.name,
-      term,
-      teacher: course.firstTeacher,
-      score: String(course.score),
-      platform: "new_web_score",
-    });
-    window.open(
-      `https://courses.pinzhixiaoyuan.com/reviews/post_external?${params}`,
-      "_blank",
-    );
-  };
-
   return (
     <div className={clsx("course-row", { "row-tampered": tampered })}>
       <div
@@ -98,7 +80,7 @@ export function CourseRow({
             role={hasExtras ? "button" : undefined}
           >
             <div className="layout-vertical-up">
-              {tampered ? (
+              {tampered && (
                 <span
                   className="prevent-click-handler course-badge course-badge-danger"
                   onClick={(event) => {
@@ -108,17 +90,6 @@ export function CourseRow({
                   data-tooltip="非真实成绩"
                 >
                   <span className="icon icon-warning" />
-                </span>
-              ) : (
-                <span
-                  className="prevent-click-handler course-badge course-badge-primary"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    gotoPinzhi();
-                  }}
-                  data-tooltip="测评该课程"
-                >
-                  <span className="icon icon-share" />
                 </span>
               )}
               {course.name}

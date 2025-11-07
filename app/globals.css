@@ -150,6 +150,23 @@ p {
     font-size: 0.75rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     min-height: 2rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Custom select arrow for Safari */
+.login-input[type='text'],
+.login-input[type='password'] {
+    background-image: none;
+}
+
+select.login-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.7)' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
 }
 
 .login-input::placeholder {
@@ -340,15 +357,20 @@ p {
 .layout-row-left {
     flex: 0 0 2.5em;
     text-align: center;
+    overflow: hidden;
+    min-width: 0;
 }
 
 .layout-row-middle {
     flex: 1 1 auto;
+    min-width: 0;
 }
 
 .layout-row-right {
-    flex: 0 0 2.5em;
+    flex: 0 0 3.5em;
     text-align: center;
+    overflow: hidden;
+    min-width: 0;
 }
 
 .rainbow {
@@ -371,6 +393,8 @@ p {
     align-items: center;
     gap: 0.35em;
     transition: opacity 0.15s ease-out;
+    width: 100%;
+    min-width: 0;
 }
 
 .layout-row-middle .layout-vertical {
@@ -378,9 +402,22 @@ p {
     text-align: left;
 }
 
+.layout-row-right .layout-vertical {
+    align-items: center;
+    text-align: center;
+    max-width: 4em;
+}
+
 .layout-vertical-up {
     line-height: 1.1;
     font-weight: 600;
+    width: 100%;
+}
+
+.layout-row-right .layout-vertical-up {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .layout-row-middle .layout-vertical-up {
@@ -390,11 +427,17 @@ p {
 .layout-vertical-down,
 .layout-vertical-extra {
     font-size: 60%;
+    width: 100%;
+}
+
+.layout-row-right .layout-vertical-down {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .layout-vertical-extra {
     transition: max-height 0.15s ease-out;
-    width: 100%;
     text-shadow: none;
     color: inherit;
 }
@@ -418,13 +461,16 @@ p {
     border: 0;
     font-family: inherit;
     text-align: center;
-    width: 2.5em;
+    width: 100%;
+    max-width: 4em;
     font-size: inherit;
     text-shadow: 0 0 3px white;
     line-height: 1em;
     padding: 0;
     margin: 0;
     color: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .score-tamperer:not(:focus) {

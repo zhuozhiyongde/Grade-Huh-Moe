@@ -93,9 +93,14 @@ export function isFull(score: string | number): boolean {
 }
 
 function shouldCalcCredit(score: string | number): boolean {
-  return (
-    isSpecialCredit(score) || courseGpaFromNormalizedScore(score) !== null
-  );
+  // Include all courses that count as attempted or earned credits
+  // Exclude only: deferred exams (I), withdrawn (W), and in-progress (IP)
+  // Include: pass (P), exempt (EX), fail (F/NP), and all numeric grades
+  const excludedStatuses = ['I', 'W', 'IP'];
+  if (typeof score === 'string' && excludedStatuses.includes(score)) {
+    return false;
+  }
+  return true;
 }
 
 function parseTeacher(line: string | undefined): string {
