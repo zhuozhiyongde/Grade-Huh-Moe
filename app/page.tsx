@@ -37,7 +37,7 @@ export default function Home() {
 
     return (
         <main className="pb-12 text-white">
-            <div className="legacy-container px-4">
+            <div className="max-w-[800px] mx-auto px-4 text-inherit">
                 <Header
                     onShowGidHelp={() => {
                         setShowGidHelp(true);
@@ -60,12 +60,12 @@ type EulaModalProps = {
 
 function EulaModal({ onAccept, onDecline }: EulaModalProps) {
     return (
-        <div className="modal-overlay">
-            <div className="legacy-modal">
-                <div className="legacy-modal__body gap-y-4">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+            <div className="max-h-[85vh] w-full max-w-[32rem] overflow-hidden bg-[#222] text-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] border border-white/[0.18] flex flex-col">
+                <div className="p-6 overflow-y-auto gap-3 flex flex-col">
                     <h2 className="text-lg font-semibold">用户须知</h2>
                     <p className="font-medium">
-                        请仔细阅读以下内容。点击“继续”按钮或使用本网站的任何功能即视为您同意以下条款。
+                        请仔细阅读以下内容。点击"继续"按钮或使用本网站的任何功能即视为您同意以下条款。
                     </p>
                     <p>本网站是北大树洞成绩查询页面的重新实现，本网站将使用以下两种方式以获取您的成绩信息：</p>
                     <ul className="list-disc space-y-1 pl-6">
@@ -76,7 +76,7 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                         <strong className="text-red-500">本网站承诺不会收集您的任何认证凭证。</strong>
                     </p>
                     <p>
-                        对于本部成绩：您的账号密码不会经过我们的后端服务器，而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
+                        对于本部成绩：您的账号密码不会经过我们的后端服务器,而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
                     </p>
                     <p>
                         对于医学部成绩：由于医学部后端存在 CORS
@@ -90,14 +90,14 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                         Storage）以方便后续输入，您可以通过清理缓存来清除这些数据。
                     </p>
                 </div>
-                <div className="legacy-modal__actions">
-                    <button type="button" onClick={onDecline} className="legacy-modal__button">
+                <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
+                    <button type="button" onClick={onDecline} className="px-5 py-1.5 rounded-full text-[0.85rem] font-semibold border border-white/30 bg-transparent text-inherit cursor-pointer transition-colors hover:bg-white/[0.12] hover:border-white/50">
                         拒绝
                     </button>
                     <button
                         type="button"
                         onClick={onAccept}
-                        className="legacy-modal__button legacy-modal__button--primary">
+                        className="px-5 py-1.5 rounded-full text-[0.85rem] font-semibold border border-[rgba(173,216,230,0.6)] bg-[rgba(173,216,230,0.15)] text-inherit cursor-pointer transition-colors hover:bg-[rgba(173,216,230,0.3)]">
                         继续
                     </button>
                 </div>
@@ -112,9 +112,9 @@ type GidHelpModalProps = {
 
 function GidHelpModal({ onClose }: GidHelpModalProps) {
     return (
-        <div className="modal-overlay">
-            <div className="legacy-modal max-w-xl">
-                <div className="legacy-modal__body gap-y-3">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+            <div className="max-h-[85vh] w-full max-w-xl overflow-hidden bg-[#222] text-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] border border-white/[0.18] flex flex-col">
+                <div className="p-6 overflow-y-auto gap-3 flex flex-col">
                     <h2 className="text-lg font-semibold">如何获取 GID</h2>
                     <p>GID 是医学部成绩系统用于定位服务的参数。</p>
                     <p className="text-cyan-500">仅初次使用时需要提供，后续可以保存无需再次提供！</p>
@@ -133,18 +133,18 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                         </li>
                         <li>
                             到达成绩查询页面后，直接在地址栏中复制完整链接，链接中应当包含 <code>gid_=...</code>{' '}
-                            参数，您可以直接返回到本页面并粘贴该链接，然后点击“解析”按钮测试是否可以正确解析。
+                            参数，您可以直接返回到本页面并粘贴该链接，然后点击"解析"按钮测试是否可以正确解析。
                         </li>
                         <li>如果链接正确，系统会自动提取 118 位的 GID，并进行存储。</li>
                     </ol>
                     <p>如遇解析失败，请确认链接仍然有效或重新访问成绩查询页面获取最新的 GID。</p>
                     <p><del className="text-sm">抱歉主播太菜了，没能找到自动获取 GID 的方法，给大家带来不便了 orz</del></p>
                 </div>
-                <div className="legacy-modal__actions">
+                <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
                     <button
                         type="button"
                         onClick={onClose}
-                        className="legacy-modal__button legacy-modal__button--primary">
+                        className="px-5 py-1.5 rounded-full text-[0.85rem] font-semibold border border-[rgba(173,216,230,0.6)] bg-[rgba(173,216,230,0.15)] text-inherit cursor-pointer transition-colors hover:bg-[rgba(173,216,230,0.3)]">
                         我知道了
                     </button>
                 </div>

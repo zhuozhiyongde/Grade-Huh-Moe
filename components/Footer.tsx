@@ -25,10 +25,10 @@ export function Footer({ onShowEula }: FooterProps) {
   };
 
   return (
-    <footer id="footer">
+    <footer className="py-8 text-[0.8em] opacity-90 text-center">
       <p>
         绩点公式{" "}
-        <button type="button" onClick={showCalculator}>
+        <button type="button" onClick={showCalculator} className="bg-none border-none text-[lightblue] cursor-pointer font-inherit font-['Times_New_Roman',Georgia,serif] p-0">
           GPA(<i>x</i>) = 4 - 3 × (100 - <i>x</i>)<sup>2</sup> ÷ 1600
         </button>
       </p>
@@ -40,6 +40,7 @@ export function Footer({ onShowEula }: FooterProps) {
           href="https://www.gnu.org/licenses/gpl-3.0.zh-cn.html"
           target="_blank"
           rel="noopener noreferrer"
+          className="text-[lightblue] no-underline cursor-pointer"
         >
           GPLv3
         </a>{" "}
@@ -48,6 +49,7 @@ export function Footer({ onShowEula }: FooterProps) {
           href="https://github.com/zhuozhiyongde/Grade-Huh-Moe"
           target="_blank"
           rel="noopener noreferrer"
+          className="text-[lightblue] no-underline cursor-pointer"
         >
           GitHub
         </a>{" "}
@@ -62,6 +64,7 @@ export function Footer({ onShowEula }: FooterProps) {
               onShowEula();
             }
           }}
+          className="text-[lightblue] no-underline cursor-pointer"
         >
           用户须知
         </a>

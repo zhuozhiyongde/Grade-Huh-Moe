@@ -26,10 +26,10 @@ export function QueryButton() {
   const label = loading ? "查询中…" : canQuery ? "查询" : "请先登录";
 
   return (
-    <div className="osu-frame">
+    <div className="text-center mt-4">
       <button
         type="button"
-        className="osu-button"
+        className="h-40 w-40 my-4 mx-4 text-[2em] transition-[transform,opacity] duration-150 bg-[hsl(120,80%,50%)] text-white shadow-[0_0_3px_black] border-[5px] border-solid border-white rounded-full cursor-pointer outline-none hover:scale-[1.2] active:scale-100 active:translate-y-[0.2em] active:opacity-90 disabled:scale-[0.8] disabled:opacity-60 disabled:cursor-not-allowed [text-shadow:0_0_3px_black]"
         disabled={loading || !canQuery}
         onClick={() => {
           void load();
@@ -37,7 +37,7 @@ export function QueryButton() {
       >
         {label}
       </button>
-      <p className="osu-text">点击按钮查询成绩</p>
+      <p className="text-[0.9rem] opacity-80">点击按钮查询成绩</p>
     </div>
   );
 }

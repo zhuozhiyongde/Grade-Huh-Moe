@@ -10,10 +10,12 @@ type OptionsContextValue = {
   judgeByGpa: boolean;
   mode: ScoreMode;
   semesterMixMode: SemesterMixMode;
+  collapseAllSemesters: boolean;
   toggleHideText: () => void;
   toggleJudgeByGpa: () => void;
   setMode: (mode: ScoreMode) => void;
   setSemesterMixMode: (mode: SemesterMixMode) => void;
+  toggleCollapseAllSemesters: () => void;
 };
 
 const OptionsContext = createContext<OptionsContextValue | undefined>(undefined);
@@ -23,6 +25,7 @@ const STORAGE_KEYS = {
   judgeByGpa: "OPTION_JUDGE_BY_GPA",
   mode: "OPTION_SCORE_MODE",
   semesterMixMode: "OPTION_SEMESTER_MIX_MODE",
+  collapseAllSemesters: "OPTION_COLLAPSE_ALL_SEMESTERS",
 } as const;
 
 export function OptionsProvider({ children }: { children: React.ReactNode }) {
@@ -30,6 +33,7 @@ export function OptionsProvider({ children }: { children: React.ReactNode }) {
   const [judgeByGpa, setJudgeByGpa] = useState(false);
   const [mode, setModeState] = useState<ScoreMode>("main");
   const [semesterMixMode, setSemesterMixModeState] = useState<SemesterMixMode>("split");
+  const [collapseAllSemesters, setCollapseAllSemesters] = useState(false);
 
   useEffect(() => {
     try {
@@ -37,6 +41,7 @@ export function OptionsProvider({ children }: { children: React.ReactNode }) {
       const storedJudge = localStorage.getItem(STORAGE_KEYS.judgeByGpa);
       const storedMode = localStorage.getItem(STORAGE_KEYS.mode);
       const storedMixMode = localStorage.getItem(STORAGE_KEYS.semesterMixMode);
+      const storedCollapse = localStorage.getItem(STORAGE_KEYS.collapseAllSemesters);
       if (storedHide !== null) {
         setHideText(storedHide === "1");
       }
@@ -48,6 +53,9 @@ export function OptionsProvider({ children }: { children: React.ReactNode }) {
       }
       if (storedMixMode === "merge" || storedMixMode === "split") {
         setSemesterMixModeState(storedMixMode);
+      }
+      if (storedCollapse !== null) {
+        setCollapseAllSemesters(storedCollapse === "1");
       }
     } catch (error) {
       console.error("Failed to read options from localStorage", error);
@@ -86,6 +94,14 @@ export function OptionsProvider({ children }: { children: React.ReactNode }) {
     }
   }, [semesterMixMode]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.collapseAllSemesters, collapseAllSemesters ? "1" : "0");
+    } catch (error) {
+      console.error("Failed to persist collapse all semesters", error);
+    }
+  }, [collapseAllSemesters]);
+
   const toggleHideText = useCallback(() => {
     setHideText((prev) => !prev);
   }, []);
@@ -102,26 +118,34 @@ export function OptionsProvider({ children }: { children: React.ReactNode }) {
     setSemesterMixModeState(nextMode);
   }, []);
 
+  const toggleCollapseAllSemesters = useCallback(() => {
+    setCollapseAllSemesters((prev) => !prev);
+  }, []);
+
   const value = useMemo<OptionsContextValue>(
     () => ({
       hideText,
       judgeByGpa,
       mode,
       semesterMixMode,
+      collapseAllSemesters,
       toggleHideText,
       toggleJudgeByGpa,
       setMode,
       setSemesterMixMode,
+      toggleCollapseAllSemesters,
     }),
     [
       hideText,
       judgeByGpa,
       mode,
       semesterMixMode,
+      collapseAllSemesters,
       setMode,
       setSemesterMixMode,
       toggleHideText,
       toggleJudgeByGpa,
+      toggleCollapseAllSemesters,
     ],
   );
 

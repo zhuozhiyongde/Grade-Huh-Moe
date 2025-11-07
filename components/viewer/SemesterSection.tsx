@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import {
   calcGpa,
@@ -20,6 +20,7 @@ type SemesterSectionProps = {
   courses: Course[];
   hideText: boolean;
   judgeByGpa: boolean;
+  collapseAll: boolean;
   onTamper: (index: number, value: string) => void;
   onUntamper: (index: number) => void;
 };
@@ -29,10 +30,16 @@ export function SemesterSection({
   courses,
   hideText,
   judgeByGpa,
+  collapseAll,
   onTamper,
   onUntamper,
 }: SemesterSectionProps) {
   const [collapsed, setCollapsed] = useState(false);
+
+  // Sync with global collapse state
+  useEffect(() => {
+    setCollapsed(collapseAll);
+  }, [collapseAll]);
 
   const sortedIndices = useMemo(() => {
     return [...semester.courseList].sort((a, b) => {
