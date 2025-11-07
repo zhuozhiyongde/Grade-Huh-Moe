@@ -76,13 +76,12 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                         <strong className="text-red-500">本网站承诺不会收集您的任何认证凭证。</strong>
                     </p>
                     <p>
-                        对于本部成绩：您的账号密码不会经过我们的后端服务器,而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
+                        对于本部成绩：您的账号密码不会经过我们的后端服务器，而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
                     </p>
                     <p>
                         对于医学部成绩：由于医学部后端存在 CORS
-                        跨域限制，所以必须通过将您的账号密码发往我们的后端，然后自动化请求北医综合服务平台（apps.bjmu.edu.cn）来获取您的成绩信息。
-                        您的账号密码发往后端后会被一次性的使用，不会被存储或泄露。后端代码我们将会在 GitHub
-                        上开源以供审计。
+                        跨域限制，所以必须通过将您的账号密码发往我们的项目后端，然后自动化请求北医综合服务平台（apps.bjmu.edu.cn）来获取您的成绩信息。
+                        您的账号密码发往后端后会被一次性的使用，不会被后端存储或泄露。所有项目代码均在 <a href="https://github.com/zhuozhiyongde/Grade-Huh-Moe" target="_blank" rel="noopener noreferrer" className="text-sky-500 no-underline cursor-pointer">GitHub</a> 上开源，您可以随时审计。
                     </p>
                     <p>如果您不信任我们的承诺，您可以选择关闭本网页。</p>
                     <p>
@@ -135,10 +134,7 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                         </li>
                         <li>如果链接正确，系统会自动提取 118 位的 GID，并进行存储。</li>
                     </ol>
-                    <p>如遇解析失败，请确认链接仍然有效或重新访问成绩查询页面获取最新的 GID。</p>
-                    <p>
-                        <del className="text-sm">抱歉主播太菜了，没能找到自动获取 GID 的方法，给大家带来不便了 orz</del>
-                    </p>
+                    <p>如遇解析失败，请确认链接中含有相关字段或重新访问成绩查询页面获取最新的 GID。</p>
                 </div>
                 <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
                     <button
