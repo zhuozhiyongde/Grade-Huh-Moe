@@ -3,6 +3,7 @@
 import type { ApiResult, BksScores } from '@/lib/api';
 import { calcGpa, parseScore } from '@/lib/scoreParser';
 
+const BACKEND_URL = 'https://grade.arthals.ink';
 const PKUHSC_ENDPOINT = '/api/pkuhsc';
 
 type MedClientParams = {
@@ -78,14 +79,32 @@ type CampusTag = {
     __termKey?: string;
 };
 
+function resolveEndpoint() {
+    if (!BACKEND_URL) {
+        return {
+            url: PKUHSC_ENDPOINT,
+            credentials: 'same-origin' as const,
+            mode: 'same-origin' as const,
+        };
+    }
+    const trimmed = BACKEND_URL.replace(/\/+$/, '');
+    return {
+        url: `${trimmed}/med-scores`,
+        credentials: 'omit' as const,
+        mode: 'cors' as const,
+    };
+}
+
 export async function fetchMedCampusScores(params: MedClientParams): Promise<ApiResult> {
     try {
-        const response = await fetch(PKUHSC_ENDPOINT, {
+        const target = resolveEndpoint();
+        const response = await fetch(target.url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'same-origin',
+            mode: target.mode,
+            credentials: target.credentials,
             body: JSON.stringify({
                 username: params.username,
                 password: params.password,
