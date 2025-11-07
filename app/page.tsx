@@ -121,15 +121,13 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                     <p>其可按照以下步骤获取：</p>
                     <ol className="list-decimal space-y-1 pl-6 text-sm leading-relaxed text-gray-200">
                         <li>
-                            在浏览器中登录北医综合服务平台，然后访问其{' '}
+                            在浏览器中登录北医综合服务平台，然后从{' '}
                             <a
-                                href="https://apps.bjmu.edu.cn/jwapp/sys/cjcx/*default/index.do"
+                                href="https://apps.bjmu.edu.cn/ywtb-portal/officialbjmu/index.html?browser=no#/hall"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="!text-cyan-500">
-                                成绩查询页面
-                            </a>
-                            。
+                                className="!text-cyan-500">服务大厅</a>{' '}
+                            跳转到成绩查询页面。
                         </li>
                         <li>
                             到达成绩查询页面后，直接在地址栏中复制完整链接，链接中应当包含 <code>gid_=...</code>{' '}
@@ -138,7 +136,9 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                         <li>如果链接正确，系统会自动提取 118 位的 GID，并进行存储。</li>
                     </ol>
                     <p>如遇解析失败，请确认链接仍然有效或重新访问成绩查询页面获取最新的 GID。</p>
-                    <p><del className="text-sm">抱歉主播太菜了，没能找到自动获取 GID 的方法，给大家带来不便了 orz</del></p>
+                    <p>
+                        <del className="text-sm">抱歉主播太菜了，没能找到自动获取 GID 的方法，给大家带来不便了 orz</del>
+                    </p>
                 </div>
                 <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
                     <button
