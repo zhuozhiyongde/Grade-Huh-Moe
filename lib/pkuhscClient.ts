@@ -3,7 +3,8 @@
 import type { ApiResult, BksScores } from '@/lib/api';
 import { calcGpa, parseScore } from '@/lib/scoreParser';
 
-const BACKEND_URL = 'https://grade.arthals.ink';
+// const BACKEND_URL = 'https://grade.arthals.ink';
+const BACKEND_URL: string = '';
 const PKUHSC_ENDPOINT = '/api/pkuhsc';
 
 type MedClientParams = {
