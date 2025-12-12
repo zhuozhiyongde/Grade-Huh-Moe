@@ -4,7 +4,7 @@ import type { ApiResult, BksScores } from '@/lib/api';
 import { calcGpa, parseScore } from '@/lib/scoreParser';
 
 const BACKEND_URL = 'https://grade-backend.arthals.ink';
-// const BACKEND_URL: string = '';
+// const BACKEND_URL: string = 'http://localhost:24702';
 const PKUHSC_ENDPOINT = '/api/pkuhsc';
 
 type MedClientParams = {
@@ -12,6 +12,21 @@ type MedClientParams = {
     password: string;
     excludeMainCampus: boolean;
     gid?: string;
+};
+
+export type MedGidResult =
+    | {
+          success: true;
+          gid: string;
+      }
+    | {
+          success: false;
+          errMsg: string;
+      };
+
+type MedGidParams = {
+    username: string;
+    password: string;
 };
 
 type MedScoreRow = {
@@ -94,6 +109,62 @@ function resolveEndpoint() {
         credentials: 'omit' as const,
         mode: 'cors' as const,
     };
+}
+
+function resolveGidEndpoint() {
+    if (!BACKEND_URL) {
+        return {
+            url: '/med-gid',
+            credentials: 'same-origin' as const,
+            mode: 'same-origin' as const,
+        };
+    }
+    const trimmed = BACKEND_URL.replace(/\/+$/, '');
+    return {
+        url: `${trimmed}/med-gid`,
+        credentials: 'omit' as const,
+        mode: 'cors' as const,
+    };
+}
+
+export async function fetchMedCampusGid(params: MedGidParams): Promise<MedGidResult> {
+    try {
+        const target = resolveGidEndpoint();
+        const response = await fetch(target.url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: target.mode,
+            credentials: target.credentials,
+            body: JSON.stringify({
+                username: params.username,
+                password: params.password,
+            }),
+        });
+
+        if (!response.ok) {
+            return {
+                success: false,
+                errMsg: `医学部 GID 接口返回异常（${response.status}）`,
+            };
+        }
+
+        const json = (await response.json()) as MedGidResult;
+        if (!json.success) {
+            return {
+                success: false,
+                errMsg: json.errMsg || '医学部 GID 获取失败',
+            };
+        }
+        return json;
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        return {
+            success: false,
+            errMsg: message || '医学部 GID 获取失败',
+        };
+    }
 }
 
 export async function fetchMedCampusScores(params: MedClientParams): Promise<ApiResult> {

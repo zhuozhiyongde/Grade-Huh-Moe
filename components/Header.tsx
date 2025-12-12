@@ -1,9 +1,10 @@
 'use client';
 
-import { ChangeEvent, useId } from 'react';
+import { ChangeEvent, useId, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ScoreMode, SemesterMixMode, useOptions } from '@/context/OptionsContext';
 import { GID_REGEX, extractGid } from '@/lib/gid';
+import { fetchMedCampusGid } from '@/lib/pkuhscClient';
 
 type HeaderProps = {
     onShowGidHelp: () => void;
@@ -23,6 +24,8 @@ export function Header({ onShowGidHelp }: HeaderProps) {
         setGid,
     } = useAuth();
     const { mode, setMode, semesterMixMode, setSemesterMixMode } = useOptions();
+
+    const [autoGidLoading, setAutoGidLoading] = useState(false);
 
     const usernameId = useId();
     const modeId = useId();
@@ -47,6 +50,8 @@ export function Header({ onShowGidHelp }: HeaderProps) {
     const showGidField = showMedPasswordField;
     const usingSharedPassword = mode === 'mixed' && samePassword;
     const gidIsValid = GID_REGEX.test(gid.trim());
+    const medPasswordToUse = usingSharedPassword ? mainPassword : medPassword;
+    const medPasswordLabel = usingSharedPassword ? '本部密码' : '医学部密码';
 
     return (
         <header className="bg-white/[0.12] pb-2 rounded-b-3xl">
@@ -168,6 +173,39 @@ export function Header({ onShowGidHelp }: HeaderProps) {
                                                 }
                                             }}>
                                             解析
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="rounded-md border border-white/50 px-3 text-xs font-semibold uppercase tracking-wide text-white/80 transition hover:border-white hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 disabled:opacity-60"
+                                            disabled={autoGidLoading}
+                                            onClick={async () => {
+                                                const normalizedUsername = username.trim();
+                                                if (!normalizedUsername) {
+                                                    window.alert('请先填写学号');
+                                                    return;
+                                                }
+                                                if (!medPasswordToUse) {
+                                                    window.alert(`请先填写${medPasswordLabel}`);
+                                                    return;
+                                                }
+
+                                                setAutoGidLoading(true);
+                                                try {
+                                                    const result = await fetchMedCampusGid({
+                                                        username: normalizedUsername,
+                                                        password: medPasswordToUse,
+                                                    });
+                                                    if (!result.success) {
+                                                        window.alert(result.errMsg || '自动获取 GID 失败');
+                                                        return;
+                                                    }
+                                                    setGid(result.gid);
+                                                    window.alert('已自动获取 GID，并已填入。');
+                                                } finally {
+                                                    setAutoGidLoading(false);
+                                                }
+                                            }}>
+                                            {autoGidLoading ? '获取中…' : '自动获取'}
                                         </button>
                                     </div>
                                 </div>
