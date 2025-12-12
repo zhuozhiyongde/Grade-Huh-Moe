@@ -117,7 +117,7 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                     <h2 className="text-lg font-semibold">如何获取 GID</h2>
                     <p>GID 是医学部成绩系统用于定位服务的参数。</p>
                     <p className="text-cyan-500">仅初次使用时需要提供，后续可以保存无需再次提供！</p>
-                    <p>其可按照以下步骤获取：</p>
+                    <p>你可以通过点击 “自动获取” 按钮来自动获取 GID，也可以按照以下步骤手动获取：</p>
                     <ol className="list-decimal space-y-1 pl-6 text-sm leading-relaxed text-gray-200">
                         <li>
                             在浏览器中登录北医综合服务平台，然后从{' '}
