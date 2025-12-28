@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { calcGpa, Course } from "@/lib/scoreParser";
 import { colorizeNewBlock } from "@/lib/colorize";
 import { CourseRow } from "@/components/viewer/CourseRow";
+import { sortCourseIndices } from "@/lib/courseSort";
 
 type NewBlockCardProps = {
   courses: Course[];
@@ -25,6 +26,13 @@ export function NewBlockCard({
   onTamper,
   onUntamper,
 }: NewBlockCardProps) {
+  const sortedNewIndices = useMemo(
+    () => sortCourseIndices(courses, newIndices),
+    [courses, newIndices],
+  );
+
+  const newIndexSet = useMemo(() => new Set(newIndices), [newIndices]);
+
   const deltaGpaInfo = useMemo(() => {
     if (newIndices.length === 0) {
       return { delta: 0, type: "keep" as const };
@@ -32,32 +40,32 @@ export function NewBlockCard({
     const newGpa = calcGpa(courses);
     const remainingIndices = courses
       .map((_, idx) => idx)
-      .filter((idx) => !newIndices.includes(idx));
+      .filter((idx) => !newIndexSet.has(idx));
     const oldGpa = calcGpa(courses, remainingIndices);
     const delta = Number(newGpa ?? 0) - Number(oldGpa ?? 0);
     let type: "up" | "down" | "keep" = "keep";
     if (delta >= 0.0005) type = "up";
     else if (delta <= -0.0005) type = "down";
     return { delta, type };
-  }, [courses, newIndices]);
+  }, [courses, newIndexSet, newIndices.length]);
 
   useEffect(() => {
     if (newIndices.length === 0) return;
     if (typeof window === "undefined") return;
     if (!("Notification" in window)) return;
     if (Notification.permission !== "granted") return;
-    const names = newIndices.map((idx) => courses[idx]?.name ?? "").filter(Boolean);
+    const names = sortedNewIndices.map((idx) => courses[idx]?.name ?? "").filter(Boolean);
     if (names.length === 0) return;
     const notification = new Notification(`新增 ${names.length} 门成绩`, {
       body: names.join("、"),
     });
     return () => notification.close();
-  }, [courses, newIndices]);
+  }, [courses, newIndices, sortedNewIndices]);
 
   return (
     <section className={clsx("semester-block new-block")}>
       <div>
-        <div className="layout-row" style={{ background: colorizeNewBlock() }}>
+        <div className="layout-row new-block-header" style={{ background: colorizeNewBlock() }}>
           <div
             className="layout-row-left potential-span"
             title={`△GPA = ${formatDelta(deltaGpaInfo.delta)}`}
@@ -149,7 +157,7 @@ export function NewBlockCard({
         </div>
       </div>
 
-      {newIndices.map((index) => (
+      {sortedNewIndices.map((index) => (
         <CourseRow
           key={courses[index].id + index}
           course={courses[index]}

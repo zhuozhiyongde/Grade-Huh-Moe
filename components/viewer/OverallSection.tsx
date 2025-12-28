@@ -49,7 +49,15 @@ export function OverallSection({ courses, isopGpa, hideText, judgeByGpa }: Overa
                     details,
                 };
             })
-            .sort((a, b) => Number(b.score) - Number(a.score));
+            .sort((a, b) => {
+                // Sort by GPA (desc), then credit (desc), then course count (desc), then name (asc).
+                const gpaA = a.gpa ?? Number.NEGATIVE_INFINITY;
+                const gpaB = b.gpa ?? Number.NEGATIVE_INFINITY;
+                if (gpaA !== gpaB) return gpaB - gpaA;
+                if (a.credit !== b.credit) return b.credit - a.credit;
+                if (a.length !== b.length) return b.length - a.length;
+                return a.name.localeCompare(b.name, 'zh-Hans');
+            });
     }, [courses]);
 
     return (

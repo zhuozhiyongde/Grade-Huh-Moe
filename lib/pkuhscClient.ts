@@ -80,6 +80,7 @@ const PASS_FAIL_MAP: Record<string, string> = {
     pass: 'P',
     P: 'P',
     p: 'P',
+    'NO PASS': 'NP',
     不通过: 'NP',
     不合格: 'NP',
     未通过: 'NP',

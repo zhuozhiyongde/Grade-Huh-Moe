@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
 import type { ApiResult } from "@/lib/api";
 import { checkScore, Course, parseScore, ParseResult } from "@/lib/scoreParser";
+import { sortCourseIndices } from "@/lib/courseSort";
 
 type ScoreContextValue = {
   result: ParseResult | null;
@@ -76,7 +77,8 @@ export function ScoreProvider({ children }: { children: React.ReactNode }) {
       .map((course, index) => (shown.includes(course.id) ? null : index))
       .filter((index): index is number => index !== null);
 
-    setNewBlocks(unseen);
+    const sorted = sortCourseIndices(courses, unseen);
+    setNewBlocks(sorted);
   }, [ensureShownLoaded]);
 
   const applyPendingShown = useCallback(() => {
