@@ -125,15 +125,18 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.35em;
+    justify-content: center;
     transition: opacity 0.15s ease-out;
     width: 100%;
+    height: fit-content;
     min-width: 0;
+    padding: 0.15rem 0;
 }
 
 .layout-row-middle .layout-vertical {
     align-items: flex-start;
     text-align: left;
+    height: fit-content;
 }
 
 .layout-row-right .layout-vertical {
@@ -156,6 +159,10 @@ textarea {
 
 .layout-row-middle .layout-vertical-up {
     font-weight: 500;
+}
+
+.layout-row-middle .layout-vertical-down{
+    margin-top: 0.35em;
 }
 
 .layout-vertical-down,
@@ -184,6 +191,7 @@ textarea {
 .layout-vertical-extra-show {
     max-height: 7em;
     overflow-y: auto;
+    margin-top: 0.35em;
 }
 
 .score-hide {

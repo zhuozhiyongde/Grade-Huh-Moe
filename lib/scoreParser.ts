@@ -7,19 +7,19 @@ const STATIC_GPA: Record<string, number | null> = {
   IP: null, // 跨学期课程
   I: null, // 缓考
   W: null,
-  // 17级研究生手册
-  "A+": 4,
-  A: 4,
-  "A-": 3.7,
-  "B+": 3.3,
-  B: 3,
-  "B-": 2.7,
-  "C+": 2.3,
-  C: 2.0,
-  "C-": 1.7,
-  "D+": 1.3,
-  D: 1,
-  F: null, // 0
+  // 等级制成绩不参与绩点计算
+  "A+": null,
+  A: null,
+  "A-": null,
+  "B+": null,
+  B: null,
+  "B-": null,
+  "C+": null,
+  C: null,
+  "C-": null,
+  "D+": null,
+  D: null,
+  F: null,
 };
 
 const DESCRIPTION: Record<string, string> = {
