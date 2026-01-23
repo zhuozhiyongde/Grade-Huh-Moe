@@ -1,5 +1,7 @@
 import type { IsopScores, ScoreBase } from "./api";
+import { convertLetterGrade, type LetterGrade, LETTER_GRADES } from "./gradePresets";
 
+// Non-letter-grade special values that always return null GPA
 const STATIC_GPA: Record<string, number | null> = {
   P: null,
   NP: null,
@@ -7,19 +9,6 @@ const STATIC_GPA: Record<string, number | null> = {
   IP: null, // 跨学期课程
   I: null, // 缓考
   W: null,
-  // 等级制成绩不参与绩点计算
-  "A+": null,
-  A: null,
-  "A-": null,
-  "B+": null,
-  B: null,
-  "B-": null,
-  "C+": null,
-  C: null,
-  "C-": null,
-  "D+": null,
-  D: null,
-  F: null,
 };
 
 const DESCRIPTION: Record<string, string> = {
@@ -60,7 +49,8 @@ export function checkScore(score: string) {
   if (!Number.isNaN(number)) {
     return number <= 100.001 && number >= -0.001;
   }
-  return STATIC_GPA[score] !== undefined;
+  // Check special grades (P, NP, EX, etc.) and letter grades
+  return STATIC_GPA[score] !== undefined || LETTER_GRADES.includes(score as LetterGrade);
 }
 
 export function courseGpaFromNormalizedScore(
@@ -73,7 +63,18 @@ export function courseGpaFromNormalizedScore(
     }
     return null;
   }
-  return STATIC_GPA[score] ?? null;
+
+  // Handle special non-letter grades (P, NP, EX, etc.)
+  if (score in STATIC_GPA) {
+    return STATIC_GPA[score];
+  }
+
+  // Handle letter grades via preset system
+  if (LETTER_GRADES.includes(score as LetterGrade)) {
+    return convertLetterGrade(score as string);
+  }
+
+  return null;
 }
 
 export function isSpecialCredit(score: string | number): boolean {
@@ -88,8 +89,11 @@ export function isFail(score: string | number): boolean {
   );
 }
 
-export function isFull(score: string | number): boolean {
-  return score === "A+" || Number(score) > 99.995;
+export function isFull (score: string | number): boolean {
+  if (LETTER_GRADES.includes(score as LetterGrade)) {
+    return convertLetterGrade(score as string) == 4.0
+  }
+  return Number(score) > 99.995;
 }
 
 function shouldCalcCredit(score: string | number): boolean {

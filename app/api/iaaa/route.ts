@@ -1,5 +1,8 @@
 import { NextRequest } from "next/server";
 
+// TODO: 临时禁用 SSL 证书验证，测试完成后删除
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 function parseCookies(response: Response) {
   const raw = response.headers.get("set-cookie");
   if (raw === null) {
