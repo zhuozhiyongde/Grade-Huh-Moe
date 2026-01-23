@@ -81,16 +81,68 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                     <p>
                         对于医学部成绩：由于医学部后端存在 CORS
                         跨域限制，所以必须通过将您的账号密码发往我们的项目后端，然后自动化请求北医综合服务平台（apps.bjmu.edu.cn）来获取您的成绩信息。
-                        您的账号密码发往后端后会被一次性的使用，不会被后端存储或泄露。所有项目代码均在 <a href="https://github.com/zhuozhiyongde/Grade-Huh-Moe" target="_blank" rel="noopener noreferrer" className="text-sky-500 no-underline cursor-pointer">GitHub</a> 上开源，您可以随时审计。
+                        您的账号密码发往后端后会被一次性的使用，不会被后端存储或泄露。所有项目代码均在{' '}
+                        <a
+                            href="https://github.com/zhuozhiyongde/Grade-Huh-Moe"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sky-500 no-underline cursor-pointer">
+                            GitHub
+                        </a>{' '}
+                        上开源，您可以随时审计。
                     </p>
                     <p>如果您不信任我们的承诺，您可以选择关闭本网页。</p>
                     <p>
                         您的账号密码将仅存储在浏览器端的本地存储（Local
                         Storage）以方便后续输入，您可以通过清理缓存来清除这些数据。
                     </p>
+                    <p>
+                        等级制成绩换算来源：
+                        <ul className="list-disc space-y-1 pl-6">
+                            <li>
+                                <a
+                                    href="https://grs.pku.edu.cn/docs/2025-08/20250827111411807279.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sky-500 no-underline cursor-pointer">
+                                    研究生手册
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.gsm.pku.edu.cn/undergraduate/info/1055/7546.htm"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sky-500 no-underline cursor-pointer">
+                                    光华
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.bio.pku.edu.cn/ug/notice/181/16352.html"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sky-500 no-underline cursor-pointer">
+                                    生科
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://sfl.pku.edu.cn/docs/2025-11/5abceec5acb94ed4bca291d0b2650dc6.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sky-500 no-underline cursor-pointer">
+                                    外院
+                                </a>
+                            </li>
+                        </ul>
+                    </p>
                 </div>
                 <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
-                    <button type="button" onClick={onDecline} className="px-5 py-1.5 rounded-full text-[0.85rem] font-semibold border border-white/30 bg-transparent text-inherit cursor-pointer transition-colors hover:bg-white/[0.12] hover:border-white/50">
+                    <button
+                        type="button"
+                        onClick={onDecline}
+                        className="px-5 py-1.5 rounded-full text-[0.85rem] font-semibold border border-white/30 bg-transparent text-inherit cursor-pointer transition-colors hover:bg-white/[0.12] hover:border-white/50">
                         拒绝
                     </button>
                     <button
@@ -125,7 +177,9 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                                 href="https://apps.bjmu.edu.cn/ywtb-portal/officialbjmu/index.html?browser=no#/hall"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="!text-cyan-500">服务大厅</a>{' '}
+                                className="!text-cyan-500">
+                                服务大厅
+                            </a>{' '}
                             跳转到成绩查询页面。
                         </li>
                         <li>
