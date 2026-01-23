@@ -96,47 +96,45 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                         您的账号密码将仅存储在浏览器端的本地存储（Local
                         Storage）以方便后续输入，您可以通过清理缓存来清除这些数据。
                     </p>
-                    <p>
-                        等级制成绩换算来源：
-                        <ul className="list-disc space-y-1 pl-6">
-                            <li>
-                                <a
-                                    href="https://grs.pku.edu.cn/docs/2025-08/20250827111411807279.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sky-500 no-underline cursor-pointer">
-                                    研究生手册
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://www.gsm.pku.edu.cn/undergraduate/info/1055/7546.htm"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sky-500 no-underline cursor-pointer">
-                                    光华
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://www.bio.pku.edu.cn/ug/notice/181/16352.html"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sky-500 no-underline cursor-pointer">
-                                    生科
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="https://sfl.pku.edu.cn/docs/2025-11/5abceec5acb94ed4bca291d0b2650dc6.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sky-500 no-underline cursor-pointer">
-                                    外院
-                                </a>
-                            </li>
-                        </ul>
-                    </p>
+                    <p>等级制成绩换算来源：</p>
+                    <ul className="list-disc space-y-1 pl-6">
+                        <li>
+                            <a
+                                href="https://grs.pku.edu.cn/docs/2025-08/20250827111411807279.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-500 no-underline cursor-pointer">
+                                研究生手册
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.gsm.pku.edu.cn/undergraduate/info/1055/7546.htm"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-500 no-underline cursor-pointer">
+                                光华
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://www.bio.pku.edu.cn/ug/notice/181/16352.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-500 no-underline cursor-pointer">
+                                生科
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="https://sfl.pku.edu.cn/docs/2025-11/5abceec5acb94ed4bca291d0b2650dc6.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-500 no-underline cursor-pointer">
+                                外院
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div className="flex justify-end gap-3 px-6 pb-6 pt-4 bg-white/5 border-t border-white/[0.08]">
                     <button
