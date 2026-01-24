@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo } from "react";
-import clsx from "clsx";
 import { calcGpa, Course } from "@/lib/scoreParser";
 import { colorizeNewBlock } from "@/lib/colorize";
 import { CourseRow } from "@/components/viewer/CourseRow";
