@@ -25,7 +25,7 @@ export function Footer({ onShowEula }: FooterProps) {
   };
 
   return (
-      <footer className="py-8 text-[0.8em] opacity-90 text-center">
+      <footer className="py-8 text-[0.8em] opacity-90 text-center leading-6">
           <p>
               绩点公式{' '}
               <button

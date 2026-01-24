@@ -71,37 +71,40 @@ export function SemesterSection({
   );
 
   return (
-    <section className="semester-block">
-      <div className={clsx({ "row-tampered": tampered })}>
+    <section className="mt-8 animate-fade-in [&>*:first-child]:shadow-[0_0_6px_rgba(0,0,0,0.8)] [&>*:first-child]:z-10 [&>*:first-child]:sticky [&>*:first-child]:top-0 [&>*:not(:first-child)]:mx-4">
+      <div className={clsx(tampered && "[&_*]:line-through [&_*]:decoration-red-500/50")}>
         <div
-          className="layout-row"
-          style={{ background: headerBackground, cursor: 'pointer' }}
+          className="flex p-1 text-black [text-shadow:0_0_3px_white] relative cursor-pointer"
+          style={{ background: headerBackground }}
           onClick={() => setCollapsed(prev => !prev)}
           role="button"
           aria-expanded={!collapsed}
         >
-          <div className="layout-row-left">
-            <div className="layout-vertical">
-              <div className="layout-vertical-up">{fix(credit, 1)}</div>
-              <div className="layout-vertical-down">学分</div>
+          <div className="flex-[0_0_3.5em] text-center overflow-hidden min-w-0 [&>*]:z-[5]">
+            <div className="flex flex-col items-center justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem]">
+              <div className="leading-[1.1] font-semibold w-full">{fix(credit, 1)}</div>
+              <div className="text-[60%] w-full">学分</div>
             </div>
           </div>
-          <div className="layout-row-middle">
-            <div className="layout-vertical">
-              <div className="layout-vertical-up">{semester.name}</div>
-              <div className="layout-vertical-down">
+          <div className="flex-1 min-w-0 [&>*]:z-[5]">
+            <div className="flex flex-col items-start justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem] text-left">
+              <div className="leading-[1.1] font-medium w-full">{semester.name}</div>
+              <div className="text-[60%] w-full mt-[0.35em]">
                 共 {sortedIndices.length} 门课程
               </div>
             </div>
           </div>
-          <div className="layout-row-right">
+          <div className="flex-[0_0_3.5em] text-center overflow-hidden min-w-0 [&>*]:z-[5]">
             <div
-              className={clsx("layout-vertical", hideText && "score-hide")}
+              className={clsx(
+                "flex flex-col items-center justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem] text-center max-w-[4em]",
+                hideText && "opacity-0"
+              )}
             >
-              <div className="layout-vertical-up">
+              <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 {semesterGpa !== null ? semesterGpa.toFixed(2) : "-.--"}
               </div>
-              <div className="layout-vertical-down">
+              <div className="text-[60%] w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 {fix(displayScore, 1)}
               </div>
             </div>

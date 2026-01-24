@@ -62,18 +62,20 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
             <div className="max-h-[85vh] w-full max-w-[32rem] overflow-hidden bg-[#222] text-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] border border-white/[0.18] flex flex-col">
-                <div className="p-6 overflow-y-auto gap-3 flex flex-col">
+                <div className="px-6 pt-6 pb-4 border-b border-white/[0.08]">
                     <h2 className="text-lg font-semibold">用户须知</h2>
+                </div>
+                <div className="px-6 py-4 overflow-y-auto gap-3 flex flex-col flex-1">
                     <p className="font-medium">
                         请仔细阅读以下内容。点击"继续"按钮或使用本网站的任何功能即视为您同意以下条款。
                     </p>
                     <p>本网站是北大树洞成绩查询页面的重新实现，本网站将使用以下两种方式以获取您的成绩信息：</p>
                     <ul className="list-disc space-y-1 pl-6">
-                        <li>对于本部成绩：使用北京大学统一认证 API 接口获取</li>
-                        <li>使用医学部成绩：通过发往后端服务器来获取您的成绩信息</li>
+                        <li>本部成绩：使用北京大学门户网站 API 接口获取</li>
+                        <li>医学部成绩：通过发往后端服务器来获取您的成绩信息</li>
                     </ul>
                     <p>
-                        <strong className="text-red-500">本网站承诺不会收集您的任何认证凭证。</strong>
+                        <strong className="text-red-400">本网站承诺不会收集您的任何认证凭证。</strong>
                     </p>
                     <p>
                         对于本部成绩：您的账号密码不会经过我们的后端服务器，而是直接发往北京大学统一认证服务器（iaaa.pku.edu.cn）。本网站将利用该服务器返回的令牌以获取您的成绩信息。
@@ -81,12 +83,12 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                     <p>
                         对于医学部成绩：由于医学部后端存在 CORS
                         跨域限制，所以必须通过将您的账号密码发往我们的项目后端，然后自动化请求北医综合服务平台（apps.bjmu.edu.cn）来获取您的成绩信息。
-                        您的账号密码发往后端后会被一次性的使用，不会被后端存储或泄露。所有项目代码均在{' '}
+                        您的账号密码发往后端后仅会被一次性的使用，不会被后端存储或泄露。所有项目代码均在{' '}
                         <a
                             href="https://github.com/zhuozhiyongde/Grade-Huh-Moe"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sky-500 no-underline cursor-pointer">
+                            className="text-cyan-500 no-underline cursor-pointer">
                             GitHub
                         </a>{' '}
                         上开源，您可以随时审计。
@@ -103,7 +105,7 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                                 href="https://grs.pku.edu.cn/docs/2025-08/20250827111411807279.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sky-500 no-underline cursor-pointer">
+                                className="text-cyan-500 no-underline cursor-pointer">
                                 研究生手册
                             </a>
                         </li>
@@ -112,7 +114,7 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                                 href="https://www.gsm.pku.edu.cn/undergraduate/info/1055/7546.htm"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sky-500 no-underline cursor-pointer">
+                                className="text-cyan-500 no-underline cursor-pointer">
                                 光华
                             </a>
                         </li>
@@ -121,7 +123,7 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                                 href="https://www.bio.pku.edu.cn/ug/notice/181/16352.html"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sky-500 no-underline cursor-pointer">
+                                className="text-cyan-500 no-underline cursor-pointer">
                                 生科
                             </a>
                         </li>
@@ -130,7 +132,7 @@ function EulaModal({ onAccept, onDecline }: EulaModalProps) {
                                 href="https://sfl.pku.edu.cn/docs/2025-11/5abceec5acb94ed4bca291d0b2650dc6.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sky-500 no-underline cursor-pointer">
+                                className="text-cyan-500 no-underline cursor-pointer">
                                 外院
                             </a>
                         </li>
@@ -163,8 +165,10 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
             <div className="max-h-[85vh] w-full max-w-xl overflow-hidden bg-[#222] text-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.6)] border border-white/[0.18] flex flex-col">
-                <div className="p-6 overflow-y-auto gap-3 flex flex-col">
+                <div className="px-6 pt-6 pb-4 border-b border-white/[0.08]">
                     <h2 className="text-lg font-semibold">如何获取 GID</h2>
+                </div>
+                <div className="px-6 py-4 overflow-y-auto gap-3 flex flex-col flex-1">
                     <p>GID 是医学部成绩系统用于定位服务的参数。</p>
                     <p className="text-cyan-500">仅初次使用时需要提供，后续可以保存无需再次提供！</p>
                     <p>你可以通过点击 “自动获取” 按钮来自动获取 GID，也可以按照以下步骤手动获取：</p>
@@ -172,7 +176,7 @@ function GidHelpModal({ onClose }: GidHelpModalProps) {
                         <li>
                             在浏览器中登录北医综合服务平台，然后从{' '}
                             <a
-                                href="https://apps.bjmu.edu.cn/ywtb-portal/officialbjmu/index.html?browser=no#/hall"
+                                href="https://apps.bjmu.edu.cn/index.html#/apps"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="!text-cyan-500">

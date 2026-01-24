@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useOptions } from '@/context/OptionsContext';
 import { useScoreContext } from '@/context/ScoreContext';
 import { RelativeTime } from '@/components/RelativeTime';
+import { IconReload } from '@/components/Icons';
 import { NewBlockCard } from '@/components/viewer/NewBlockCard';
 import { SemesterSection } from '@/components/viewer/SemesterSection';
 import { OverallSection } from '@/components/viewer/OverallSection';
@@ -127,7 +128,7 @@ export function Viewer() {
                     }}
                     className="bg-none border-none text-[lightblue] cursor-pointer inline-flex items-center gap-[0.35em] p-0 font-inherit disabled:opacity-60 disabled:cursor-not-allowed"
                     disabled={loading}>
-                    <span className="icon icon-reload" />
+                    <IconReload />
                     {loading ? '刷新中…' : '刷新'}
                 </button>
                 {' '}

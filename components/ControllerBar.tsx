@@ -6,6 +6,7 @@ import { useGradePreset } from '@/context/GradePresetContext';
 import { useOptions } from '@/context/OptionsContext';
 import { RelativeTime } from '@/components/RelativeTime';
 import { CustomPresetEditor } from '@/components/CustomPresetEditor';
+import { IconRefresh, IconShow, IconHide, IconDisplay, IconEdit } from '@/components/Icons';
 import { PRESETS, type PresetId } from '@/lib/gradePresets';
 
 const AUTO_RELOAD_INTERVAL_MS = 300_000;
@@ -59,7 +60,7 @@ export function ControllerBar() {
                     type="button"
                     onClick={toggleAutoReload}
                     className="bg-none border-none text-[lightblue] cursor-pointer inline-flex items-center gap-[0.35em] p-0 font-inherit disabled:opacity-60 disabled:cursor-not-allowed">
-                    <span className="icon icon-refresh" />
+                    <IconRefresh />
                     {autoReloadEnabled ? (
                         <RelativeTime value={nextUpdate} refreshIntervalMs={1_000} suffix=" 刷新" fallback="即将刷新" />
                     ) : (
@@ -70,7 +71,7 @@ export function ControllerBar() {
                     type="button"
                     onClick={toggleHideText}
                     className="bg-none border-none text-[lightblue] cursor-pointer inline-flex items-center gap-[0.35em] p-0 font-inherit disabled:opacity-60 disabled:cursor-not-allowed">
-                    <span className={`icon ${hideText ? 'icon-show' : 'icon-hide'}`} />
+                    {hideText ? <IconShow /> : <IconHide />}
                     <span>{hideText ? '显示文字' : '隐藏文字'}</span>
                 </button>
                 <button
@@ -82,14 +83,14 @@ export function ControllerBar() {
                             ? '当前四分制着色，GPA 从 1 至 4 由红变绿'
                             : '当前百分制着色，分数从 60 至 100 由红变绿'
                     }>
-                    <span className="icon icon-display" />
+                    <IconDisplay />
                     <span>{judgeByGpa ? '百分制着色' : '四分制着色'}</span>
                 </button>
                 <button
                     type="button"
                     onClick={toggleCollapseAllSemesters}
                     className="bg-none border-none text-[lightblue] cursor-pointer inline-flex items-center gap-[0.35em] p-0 font-inherit disabled:opacity-60 disabled:cursor-not-allowed">
-                    <span className={`icon ${collapseAllSemesters ? 'icon-show' : 'icon-hide'}`} />
+                    {collapseAllSemesters ? <IconShow /> : <IconHide />}
                     <span>{collapseAllSemesters ? '展开学期' : '折叠学期'}</span>
                 </button>
                 <span className="inline-flex items-center gap-[0.35em] w-full justify-center md:w-auto">
@@ -117,7 +118,7 @@ export function ControllerBar() {
                             onClick={() => setShowCustomEditor(true)}
                             className="bg-none border-none text-[lightblue] cursor-pointer p-0 font-inherit"
                             title="编辑自定义规则">
-                            <span className="icon icon-edit" />
+                            <IconEdit />
                         </button>
                     )}
                 </span>

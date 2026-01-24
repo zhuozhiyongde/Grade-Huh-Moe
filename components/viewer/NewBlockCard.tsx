@@ -62,23 +62,49 @@ export function NewBlockCard({
     return () => notification.close();
   }, [courses, newIndices, sortedNewIndices]);
 
+  const svgStyles = {
+    keep: {
+      borderGradientStop: '#a38aa7',
+      backgroundDown: '#5b406c',
+      textDownFontSize: '35px',
+      textDownStroke: '#473663',
+    },
+    up: {
+      borderGradientStop: 'rgba(137, 202, 207, 0.99)',
+      backgroundDown: '#2e4561',
+      textDownFontSize: '38px',
+      textDownStroke: '#4c9ca0',
+    },
+    down: {
+      borderGradientStop: '#bd6675',
+      backgroundDown: '#632a43',
+      textDownFontSize: '38px',
+      textDownStroke: '#87495f',
+    },
+  };
+
+  const currentSvgStyle = svgStyles[deltaGpaInfo.type];
+
   return (
-    <section className={clsx("semester-block new-block")}>
+    <section className="mt-8 animate-fade-in transition-opacity duration-150 ease-out [&>*:first-child]:z-[30] [&>*:not(:first-child)]:mx-4">
       <div>
-        <div className="layout-row new-block-header" style={{ background: colorizeNewBlock() }}>
+        <div
+          className="flex p-1 text-black [text-shadow:0_0_3px_white] relative pl-[0.9em] pr-6 items-center"
+          style={{ background: colorizeNewBlock() }}
+        >
           <div
-            className="layout-row-left potential-span"
+            className="flex-[0_0_auto] px-1 flex items-center mr-[0.6em]"
             title={`△GPA = ${formatDelta(deltaGpaInfo.delta)}`}
           >
             <svg
               viewBox="0 15 240 165"
-              className={clsx("potential-svg", `potential-svg-${deltaGpaInfo.type}`)}
+              className="h-12 align-top [text-shadow:none] pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
                 <linearGradient id="border-gradient" x1="0" x2="0" y1="0" y2="1">
                   <stop offset="0" stopColor="#fafafa" />
-                  <stop offset="1" id="potential-svg-border-gradient-stop" />
+                  <stop offset="1" stopColor={currentSvgStyle.borderGradientStop} />
                 </linearGradient>
                 <filter
                   id="as-drop-shadow"
@@ -103,7 +129,7 @@ export function NewBlockCard({
               />
               <path
                 d="m24.491667,57.725c0,0 189,0.5 189,0.5c0,0 -94.5,93.5 -94.5,93.5l-94.5,-94z"
-                id="potential-svg-background-down"
+                fill={currentSvgStyle.backgroundDown}
               />
               <path
                 d="m55.941667,4.725c0,0 -41.5,42.25 -41.5,42.25c0,0 104,105 104,105c0,0 106.75,-105.25 106.75,-105.25c0,0 -42.5,-42.25 -42.525,-42.225l-126.725,0.225z"
@@ -128,12 +154,13 @@ export function NewBlockCard({
                 y="109.725"
                 fill="#ffffff"
                 fontFamily="Sans-serif"
+                fontSize={currentSvgStyle.textDownFontSize}
                 opacity="0.95"
                 textAnchor="middle"
                 fontWeight="bold"
                 letterSpacing="-2"
                 strokeWidth="1.5"
-                id="potential-svg-text-down"
+                stroke={currentSvgStyle.textDownStroke}
               >
                 {deltaGpaInfo.type === "keep"
                   ? "-KEEP-"
@@ -141,16 +168,20 @@ export function NewBlockCard({
               </text>
             </svg>
           </div>
-          <div className="layout-row-middle">
-            <div className="layout-vertical">
-              <div className="layout-vertical-up">新增成绩</div>
-              <div className="layout-vertical-down">
+          <div className="flex-1 min-w-0 [&>*]:z-[5]">
+            <div className="flex flex-col items-start justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem] text-left">
+              <div className="leading-[1.1] font-medium w-full">新增成绩</div>
+              <div className="text-[60%] w-full mt-[0.35em]">
                 共 {newIndices.length} 门课程
               </div>
             </div>
           </div>
-          <div className="layout-row-right">
-            <button type="button" className="read-all-button" onClick={onDismiss}>
+          <div className="flex-[0_0_4.25em] flex justify-end items-center [&>*]:z-[5]">
+            <button
+              type="button"
+              className="h-[1.65em] w-20 text-base my-1 mx-2 bg-white text-black border border-black rounded cursor-pointer !outline-none hover:bg-black hover:text-white"
+              onClick={onDismiss}
+            >
               已阅
             </button>
           </div>

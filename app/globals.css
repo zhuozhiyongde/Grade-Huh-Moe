@@ -1,48 +1,5 @@
 @import 'tailwindcss';
 
-@font-face {
-    font-family: 'icomoon';
-    src: url('/fonts/icomoon.ttf?j71aii') format('truetype'), url('/fonts/icomoon.woff?j71aii') format('woff'),
-        url('/fonts/icomoon.svg?j71aii#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-.icon {
-    /* keep in sync with icomoon.css to ensure icon font renders */
-    font-family: 'icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    vertical-align: -0.0625em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-reload:before {
-    content: '\e984';
-}
-.icon-display:before {
-    content: '\e99d';
-}
-.icon-show:before {
-    content: '\e9ce';
-}
-.icon-hide:before {
-    content: '\e9d1';
-}
-.icon-warning:before {
-    content: '\ea07';
-}
-.icon-refresh:before {
-    content: '\ea2e';
-}
-.icon-share:before {
-    content: '\ea7e';
-}
-
 :root {
     --background: #333333;
     --foreground: #ffffff;
@@ -53,6 +10,8 @@
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+    --animate-fade-in: fade-in 0.15s ease-out 1;
+    --animate-rainbow: rainbow-moving 5s linear infinite;
 }
 
 body {
@@ -70,43 +29,6 @@ textarea {
     font-family: var(--font-geist-sans), 'Segoe UI', 'Microsoft YaHei', sans-serif;
 }
 
-
-.row-tampered * {
-    text-decoration-line: line-through;
-    text-decoration-color: rgba(255, 0, 0, 0.5);
-}
-
-.layout-row {
-    display: flex;
-    padding: 0.25rem;
-    color: black;
-    text-shadow: 0 0 3px white;
-    position: relative;
-}
-
-.layout-row > * {
-    z-index: 5;
-}
-
-.layout-row-left {
-    flex: 0 0 2.5em;
-    text-align: center;
-    overflow: hidden;
-    min-width: 0;
-}
-
-.layout-row-middle {
-    flex: 1 1 auto;
-    min-width: 0;
-}
-
-.layout-row-right {
-    flex: 0 0 3.5em;
-    text-align: center;
-    overflow: hidden;
-    min-width: 0;
-}
-
 .rainbow {
     animation: rainbow-moving 5s linear infinite;
     background-size: 1000px;
@@ -121,109 +43,6 @@ textarea {
     }
 }
 
-.layout-vertical {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.15s ease-out;
-    width: 100%;
-    height: fit-content;
-    min-width: 0;
-    padding: 0.15rem 0;
-}
-
-.layout-row-middle .layout-vertical {
-    align-items: flex-start;
-    text-align: left;
-    height: fit-content;
-}
-
-.layout-row-right .layout-vertical {
-    align-items: center;
-    text-align: center;
-    max-width: 4em;
-}
-
-.layout-vertical-up {
-    line-height: 1.1;
-    font-weight: 600;
-    width: 100%;
-}
-
-.layout-row-right .layout-vertical-up {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.layout-row-middle .layout-vertical-up {
-    font-weight: 500;
-}
-
-.layout-row-middle .layout-vertical-down{
-    margin-top: 0.35em;
-}
-
-.layout-vertical-down,
-.layout-vertical-extra {
-    font-size: 60%;
-    width: 100%;
-}
-
-.layout-row-right .layout-vertical-down {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.layout-vertical-extra {
-    transition: max-height 0.15s ease-out;
-    text-shadow: none;
-    color: inherit;
-}
-
-.layout-vertical-extra-hide {
-    max-height: 0;
-    overflow: hidden;
-}
-
-.layout-vertical-extra-show {
-    max-height: 7em;
-    overflow-y: auto;
-    margin-top: 0.35em;
-}
-
-.score-hide {
-    opacity: 0;
-}
-
-.score-tamperer {
-    background-color: transparent;
-    border: 0;
-    font-family: inherit;
-    text-align: center;
-    width: 100%;
-    max-width: 4em;
-    font-size: inherit;
-    text-shadow: 0 0 3px white;
-    line-height: 1em;
-    padding: 0;
-    margin: 0;
-    color: inherit;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.score-tamperer:not(:focus) {
-    cursor: pointer;
-}
-
-.semester-block {
-    margin-top: 2em;
-    animation: fade-in 0.15s ease-out 1;
-}
-
 @keyframes fade-in {
     from {
         opacity: 0;
@@ -236,195 +55,27 @@ textarea {
     }
 }
 
-.semester-block > *:first-child {
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-    z-index: 10;
-    position: sticky;
-    top: 0;
+/* Minimal scrollbar styling */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
 }
 
-.semester-block > *:not(:first-child) {
-    margin-left: 1em;
-    margin-right: 1em;
+::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-.course-row {
-    position: relative;
-    box-shadow: 0 -1px 0 #7f7f7f;
+::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.4);
+    border-radius: 2px;
 }
 
-.course-badge {
-    display: inline-block;
-    cursor: pointer;
-    padding: 0 0.25em;
-    border-radius: 0.25em;
-    margin-right: 0.4em;
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 128, 128, 0.6);
 }
 
-.course-badge,
-.course-badge * {
-    text-decoration: none !important;
-}
-
-.course-badge:hover {
-    background-color: #555;
-    color: white;
-    text-shadow: none;
-}
-
-.course-badge-danger {
-    color: red;
-}
-
-.course-badge-danger:hover {
-    background-color: red !important;
-}
-
-.course-badge-primary {
-    color: #00c;
-}
-
-.course-badge-primary:not(:hover) {
-    opacity: 0.7;
-}
-
-.course-badge:hover::before {
-    content: attr(data-tooltip);
-    font-size: 0.8rem;
-    position: relative;
-    display: inline-block;
-    width: 6em;
-    height: 1.2em;
-    line-height: 1.2em;
-    margin-bottom: -1em;
-    margin-right: -6em;
-    top: 1.25rem;
-    border-radius: 3px;
-    text-align: center;
-    left: -0.25rem;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-    z-index: 100;
-}
-
-.read-all-button {
-    height: 1.65em;
-    width: 5em;
-    font-size: 1em;
-    margin: 0.25em 0.5em;
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    border-radius: 0.25em;
-    cursor: pointer;
-    outline: none !important;
-}
-
-.read-all-button:hover {
-    background-color: black;
-    color: white;
-}
-
-.new-block {
-    transition: opacity 0.15s ease-out;
-}
-
-.new-block-hidden {
-    opacity: 0;
-}
-
-.new-block-header {
-    padding-left: 0.9em;
-    padding-right: 1.5em;
-    align-items: center;
-}
-
-.new-block-header .layout-row-left {
-    flex: 0 0 auto;
-    padding: 0 0.25em 0 0.25em;
-    display: flex;
-    align-items: center;
-}
-
-.new-block-header .layout-row-right {
-    flex: 0 0 4.25em;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.new-block-header .potential-span {
-    margin-right: 0.6em;
-}
-
-.new-block > *:first-child {
-    z-index: 30;
-}
-
-.potential-svg {
-    height:3rem;
-    vertical-align: top;
-    text-shadow: none;
-    pointer-events: none;
-}
-
-.potential-svg-keep #potential-svg-border-gradient-stop {
-    stop-color: #a38aa7;
-}
-
-.potential-svg-up #potential-svg-border-gradient-stop {
-    stop-color: rgba(137, 202, 207, 0.99);
-}
-
-.potential-svg-down #potential-svg-border-gradient-stop {
-    stop-color: #bd6675;
-}
-
-.potential-svg-keep #potential-svg-background-down {
-    fill: #5b406c;
-}
-
-.potential-svg-up #potential-svg-background-down {
-    fill: #2e4561;
-}
-
-.potential-svg-down #potential-svg-background-down {
-    fill: #632a43;
-}
-
-.potential-svg-keep #potential-svg-text-down {
-    font-size: 35px;
-    stroke: #473663;
-}
-
-.potential-svg-up #potential-svg-text-down {
-    font-size: 38px;
-    stroke: #4c9ca0;
-}
-
-.potential-svg-down #potential-svg-text-down {
-    font-size: 38px;
-    stroke: #87495f;
-}
-
-@media print {
-    body {
-        background-color: white !important;
-        color: black !important;
-    }
-
-    .print-hide {
-        display: none;
-    }
-
-    .semester-block > *:first-child {
-        position: relative;
-        box-shadow: unset;
-        border: 1px solid #7f7f7f;
-    }
-
-    .course-row {
-        page-break-inside: avoid;
-    }
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(128, 128, 128, 0.4) transparent;
 }
