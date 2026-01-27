@@ -102,7 +102,7 @@ export function SemesterSection({
               )}
             >
               <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">
-                {semesterGpa !== null ? semesterGpa.toFixed(2) : "-.--"}
+                {semesterGpa !== null ? semesterGpa.toFixed(3) : "-.---"}
               </div>
               <div className="text-[60%] w-full overflow-hidden text-ellipsis whitespace-nowrap">
                 {fix(displayScore, 1)}

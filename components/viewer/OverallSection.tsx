@@ -92,7 +92,7 @@ export function OverallSection({ courses, isopGpa, hideText, judgeByGpa }: Overa
                             "flex flex-col items-center justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem] text-center max-w-[4em]",
                             hideText && "opacity-0"
                         )}>
-                            <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">{totalGpa !== null ? totalGpa.toFixed(2) : '-.--'}</div>
+                            <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">{totalGpa !== null ? totalGpa.toFixed(3) : '-.---'}</div>
                             <div className="text-[60%] w-full overflow-hidden text-ellipsis whitespace-nowrap">{fix(displayScore, 1)}</div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ function CategoryRow({ data, hideText, judgeByGpa }: CategoryRowProps) {
                         "flex flex-col items-center justify-center transition-opacity duration-150 ease-out w-full h-fit min-w-0 py-[0.15rem] text-center max-w-[4em]",
                         hideText && "opacity-0"
                     )}>
-                        <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">{data.gpa !== null ? data.gpa.toFixed(2) : '-.--'}</div>
+                        <div className="leading-[1.1] font-semibold w-full overflow-hidden text-ellipsis whitespace-nowrap">{data.gpa !== null ? data.gpa.toFixed(3) : '-.---'}</div>
                         <div className="text-[60%] w-full overflow-hidden text-ellipsis whitespace-nowrap">{fix(data.score, 1)}</div>
                     </div>
                 </div>

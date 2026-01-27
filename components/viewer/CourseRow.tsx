@@ -157,7 +157,7 @@ export function CourseRow({
               />
             </div>
             <div className="text-[60%] w-full overflow-hidden text-ellipsis whitespace-nowrap">
-              {gpa !== null ? gpa.toFixed(2) : describe(course.score)}
+              {gpa !== null ? gpa.toFixed(3) : describe(course.score)}
             </div>
           </div>
         </div>
